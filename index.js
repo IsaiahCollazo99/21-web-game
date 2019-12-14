@@ -105,6 +105,9 @@ const dealComputer = (data) => {
 }
 
 const computerTurn = () => {
+    let buttons = document.querySelector("#decision");
+    buttons.parentNode.removeChild(buttons);
+    
     let computerHand = document.createElement("ul");
     computerHand.id = "computer";
     let computerScore = document.createElement("h3");
