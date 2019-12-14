@@ -22,6 +22,7 @@ const fetchData = async (url, callback) => {
 const setScore = (hand) => {
     let cards = hand.querySelectorAll("li");
     let playerScore = document.createElement("h3");
+    playerScore.id = "playerScore";
     let gameSection = document.querySelector("#game");
     playerScore.innerText = 0;
     for(let i = 0; i < cards.length; i++) {
@@ -63,26 +64,57 @@ const isBust = (card) => {
 }
 
 const playerBust = () => {
-    let playerHand = document.querySelector("#game");
+    let playerHand = document.querySelector("#player");
     playerHand.parentNode.removeChild(playerHand);
     
-    let playerScore = document.querySelector("h3");
+    let playerScore = document.querySelector("#playerScore");
     playerScore.innerText = "BUSTED";
+    computerTurn();
+}
+
+const findWinner = () => {
+    let computerScore = document.querySelector("#computerScore");
+    let playerScore = document.querySelector("#playerScore");
+    let winner = document.querySelector("#winner");
+
+    if(playerScore === "BUSTED" || 21 - Number(playerScore.innerText) > 21 - Number(computerScore.innerText)) {
+        winner.innerText = "THE COMPUTER WINS!";
+    } else if(computerScore === "BUSTED" || 21 - Number(playerScore.innerText) < 21 - Number(computerScore.innerText)) {
+        winner.innerText = "YOU WIN!";
+    }
 }
 
 const dealComputer = (data) => {
-    debugger;
+    let computerHand = document.querySelector("#computer");
+    let computerScore = document.querySelector("#computerScore")
+    computerScore.innerText = 0;
+    data.cards.forEach(card => {
+        let li = document.createElement("li");
+        let img = document.createElement("img");
+        img.src = card.image;
+        li.appendChild(img);
+        li.value = scores[card.value];
+        computerScore.innerText = Number(computerScore.innerText) + li.value;
+        computerHand.appendChild(li);   
+    })
+
+    if(Number(computerScore.innerText) > 21) {
+        computerScore.innerText = "BUSTED";
+    }
+    findWinner();
 }
 
 const computerTurn = () => {
     let computerHand = document.createElement("ul");
-    computerHand.id = document.querySelector("#computer");
+    computerHand.id = "computer";
     let computerScore = document.createElement("h3");
-    let game = document.querySelector("game");
+    computerScore.id = "computerScore";
+    let game = document.querySelector("#game");
     game.appendChild(computerScore);
+    game.appendChild(computerHand);
 
     let deckId = document.querySelector("#deckId");
-    fetchData(`https://deckofcardsapi.com/api/deck/${deckId}/draw/?count=3`, dealComputer);
+    fetchData(`https://deckofcardsapi.com/api/deck/${deckId.innerText}/draw/?count=3`, dealComputer);
 }
 
 const playerDecision = (hit, stand) => {
