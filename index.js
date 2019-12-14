@@ -64,9 +64,6 @@ const isBust = (card) => {
 }
 
 const playerBust = () => {
-    let playerHand = document.querySelector("#player");
-    playerHand.parentNode.removeChild(playerHand);
-    
     let playerScore = document.querySelector("#playerScore");
     playerScore.innerText = "BUSTED";
     computerTurn();
@@ -77,9 +74,11 @@ const findWinner = () => {
     let playerScore = document.querySelector("#playerScore");
     let winner = document.querySelector("#winner");
 
-    if(playerScore === "BUSTED" || 21 - Number(playerScore.innerText) > 21 - Number(computerScore.innerText)) {
+    if(playerScore.innerText === "BUSTED" && computerScore.innerText === "BUSTED") {
+        winner.innerText = "IT'S A DRAW";
+    } else if(playerScore.innerText === "BUSTED" || 21 - Number(playerScore.innerText) > 21 - Number(computerScore.innerText)) {
         winner.innerText = "THE COMPUTER WINS!";
-    } else if(computerScore === "BUSTED" || 21 - Number(playerScore.innerText) < 21 - Number(computerScore.innerText)) {
+    } else if(computerScore.innerText === "BUSTED" || 21 - Number(playerScore.innerText) < 21 - Number(computerScore.innerText)) {
         winner.innerText = "YOU WIN!";
     }
 }
@@ -107,7 +106,7 @@ const dealComputer = (data) => {
 const computerTurn = () => {
     let buttons = document.querySelector("#decision");
     buttons.parentNode.removeChild(buttons);
-    
+
     let computerHand = document.createElement("ul");
     computerHand.id = "computer";
     let computerScore = document.createElement("h3");

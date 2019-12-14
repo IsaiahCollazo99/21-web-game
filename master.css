@@ -1,6 +1,8 @@
-/* main {
-    align-content: center;
-} */
+body {
+    /* background-image: url("./assets/background.jpg"); */
+    background: #037B19;
+    text-align: center;
+}
 
 #game {
     display: grid;
@@ -39,4 +41,9 @@ ul {
 #computer {
     grid-row: 2 / 3;
     grid-column: 2 / 6;
+}
+
+#start {
+    width: fit-content;
+    text-align: center;
 }
