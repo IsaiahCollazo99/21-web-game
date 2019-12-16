@@ -11,7 +11,7 @@ const scores = {
     "4": 4,
     "3": 3,
     "2": 2,
-    "ACE": 1
+    "ACE": [1, 11]
 }
 
 const fetchData = async (url, callback) => {
@@ -37,6 +37,10 @@ const setScore = (hand) => {
     }
 }
 
+const aceChange = () => {
+
+}
+
 const createElements = async (deckId) => {
     let playerHand = document.createElement("ul");
     playerHand.id = "player";
@@ -46,7 +50,27 @@ const createElements = async (deckId) => {
             let img = document.createElement("img");
             img.src = card.image;
             li.appendChild(img);
-            li.value = scores[card.value];
+
+            if(card.value === "ACE") {
+                li.id = "ace";
+
+                let low = document.createElement("button");
+                low.id = "low";
+                low.onclick = aceChange();
+                low.innerText = "Low";
+                li.appendChild(low);
+
+                let high = document.createElement("button");
+                high.id = "high";
+                high.onclick = aceChange();
+                high.innerText = "High";
+                li.appendChild(high);
+
+                li.value = scores[card.value][0];
+            } else {
+                li.value = scores[card.value];
+            }
+
             playerHand.appendChild(li);   
         })
     });

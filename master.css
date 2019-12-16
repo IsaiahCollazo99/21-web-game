@@ -54,3 +54,20 @@ img {
     height: 150px;
     width: 107px;
 }
+
+#ace {
+    display: grid;
+    grid-template-rows: 1fr 20px;
+    grid-template-columns: 53px 53px;
+    grid-column: 1 / 3;
+}
+
+#low {
+    grid-row: 2 / 3;
+    grid-column: 1 / 2;
+}
+
+#high {
+    grid-row: 2 / 3;
+    grid-column: 2 / 3;
+}
