@@ -11,7 +11,7 @@ const scores = {
     "4": 4,
     "3": 3,
     "2": 2,
-    "ACE": [1, 11]
+    "ACE": 1
 }
 
 const fetchData = async (url, callback) => {
@@ -21,7 +21,11 @@ const fetchData = async (url, callback) => {
 
 const setScore = (hand) => {
     let cards = hand.querySelectorAll("li");
-    let playerScore = document.createElement("h3");
+    let playerScore = document.querySelector("#playerScore");
+    if(playerScore) {
+        playerScore.parentNode.removeChild(playerScore);
+    }
+    playerScore = document.createElement("h3");
     playerScore.id = "playerScore";
     let gameSection = document.querySelector("#game");
     playerScore.innerText = 0;
@@ -38,7 +42,16 @@ const setScore = (hand) => {
 }
 
 const aceChange = () => {
-
+    let hand = document.querySelector("#player");
+    let handLi = hand.querySelectorAll("li");
+    for(let i = 0; i < handLi.length; i++) {
+        if(handLi[i].value === 1) {
+            handLi[i].value = 11;
+        } else if(handLi[i].value === 11) {
+            handLi[i].value = 1;
+        }
+    }
+    setScore(hand);
 }
 
 const createElements = async (deckId) => {
@@ -54,19 +67,13 @@ const createElements = async (deckId) => {
             if(card.value === "ACE") {
                 li.id = "ace";
 
-                let low = document.createElement("button");
-                low.id = "low";
-                low.onclick = aceChange();
-                low.innerText = "Low";
-                li.appendChild(low);
+                let aceSwitch = document.createElement("button");
+                aceSwitch.id = "switch";
+                aceSwitch.onclick = aceChange;
+                aceSwitch.innerText = "Ace Value";
+                li.appendChild(aceSwitch);
 
-                let high = document.createElement("button");
-                high.id = "high";
-                high.onclick = aceChange();
-                high.innerText = "High";
-                li.appendChild(high);
-
-                li.value = scores[card.value][0];
+                li.value = scores[card.value];
             } else {
                 li.value = scores[card.value];
             }
